@@ -1,0 +1,92 @@
+﻿@model Common.MasterModel.UserVm
+@{
+    ViewBag.Title = "AddEditUser";
+    Layout = "";
+}
+<script src="~/Scripts/CustomScripts/AddUser.js?v=@System.Configuration.ConfigurationManager.AppSettings["jQueryVersion"]"></script>
+<input id="hdUserId" type="hidden" value="@Model.UserId">
+<div class="row m-0 p-0 w-100">
+    <div class="card w-100 mt-2 ">
+        <div class="card-header bg-default text-dark">
+            <div class="col-sm-8">
+                @if (Model.UserId == 0)
+                {
+                    <h5><span class="badge badge-pill badge-primary">Add user details</span></h5>
+                }
+                else
+                {
+                    <h5><span class="badge badge-pill badge-primary">Edit user details</span></h5>
+                }
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="float-right close" id="addEditUserCloseCrossButton" style="position: relative; top: -7px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+        </div>
+        <div class="card-body p-4">
+            <form id="formAddUser">
+                <div class="row">
+                    <div class="col-sm-3 form-group">
+                        <label>First Name</label>
+                        @Html.TextBoxFor(Model => Model.FirstName, null, new { @class = "form-control", @id = "addEditUserTxtFirstName", @placeholder = "First name", @autocomplete = "off", @autofocus = true })
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label>Last Name</label>
+                        @Html.TextBoxFor(Model => Model.LastName, null, new { @class = "form-control", @id = "addEditUserTxtLastName", @placeholder = "Last name", @autocomplete = "off" })
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label>Email</label>
+                        @if (Model.UserId == 0)
+                        {
+
+                            @Html.TextBoxFor(Model => Model.Email, null, new { @class = "form-control", @id = "addEditUserTxtEmail", @placeholder = "Email", @autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(Model => Model.Email, null, new { @class = "form-control", @id = "addEditUserTxtEmail", @placeholder = "Email", @readonly = "readonly", @autocomplete = "off" })
+
+                        }
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label>Phone No</label>
+                        @Html.TextBoxFor(Model => Model.PhoneNo, null, new { @class = "form-control mobile-phone-number", @placeholder = "Phone No", @id = "addEditUserTxtPhoneNo", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 form-group" id="UserRoleDiv">
+                        <label>Role</label>
+                        @Html.DropDownListFor(Model => Model.RoleId, new SelectList(Model.lstRole, "RoleId", "Name"), "Select Role", new { @class = "form-control", @id = "addEditUserddlRoleId" })
+                    </div>
+                    <div class="col-sm-6 form-group" id="userAddressDiv">
+                        <label>Address</label>
+                        @Html.TextAreaFor(Model => Model.Address, new { @class = "form-control", @id = "addEditUserTxtAddress", @placeholder = "Address", @autocomplete = "off", @style = "height:40px" })
+                    </div>
+                    <div class="col-sm-3 form-group d-flex">
+                        <div class="checkbox mr-3" style="margin-top:33px">
+                            <input id="addEditUserchkIsActive" type="checkbox" checked="checked">
+                            <label for="IsActive">Is Active</label>
+                        </div>
+                        <div class="checkbox" style="margin-top:33px">
+                            <input id="addEditUserchkIsSolicitor" type="checkbox" onchange="AllUser.IsUserIsSolcitor($(this))">
+                            <label for="IsActive">Is Solicitor</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group d-none" id="UserSolicitorDiv">
+                        <label>Solicitor</label>
+                        @Html.DropDownListFor(Model => Model.SolicitorId, new SelectList(Model.ListSolicitor, "SolicitorId", "Name"), "Select Solicitor", new { @class = "form-control", @id = "addEditUserddlSolicitorId" })
+                    </div>
+                </div>
+                <div class="col-sm-12 py-3 text-right" style="border-top:1px solid rgba(26,54,126,0.125);padding-top:15px;">
+                    <button type="button" id="btnSaveUser" class="btn btn-primary btn-round">Save</button>
+                    <button type="button" id="btnCancelUser" class="loat-right btn btn-info ml-1">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+
